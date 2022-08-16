@@ -7,7 +7,7 @@ import java.util.Random;
 // 2) If 'n' is even, and in the range [2-5], then print "Not Weird."
 // 3) If 'n' is even, and in the range [6-20], then print "Weird."
 // 4) If 'n' is even, and greater than 20, then print "Not Weird."
-public class ifElse_I {
+public class IfElse_I {
 
 	public static void main(String[] ARGS) {
 		Random rng = new Random();
