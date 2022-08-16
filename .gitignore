@@ -400,3 +400,5 @@ CS111/.classpath
 CS111/.gitignore
 CS111/.project
 CS111/.settings/org.eclipse.jdt.core.prefs
+HRR-Java/bin/
+*.7z
