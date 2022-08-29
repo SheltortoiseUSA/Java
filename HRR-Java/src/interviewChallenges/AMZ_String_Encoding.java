@@ -17,7 +17,7 @@ public class AMZ_String_Encoding {
 	}
 	
 	// Custom function to encode a string to shorten its memory usage.
-	public static String encode(final String INPUT_STRING) {
+	private static String encode(final String INPUT_STRING) {
 		// Use the optimized StringBuilder for the compressed string to return.
 		final StringBuilder SB = new StringBuilder();
 		
@@ -61,7 +61,7 @@ public class AMZ_String_Encoding {
 	}
 	
 	// Custom function to determine if a chosen index is "Out of Bounds."
-	public static boolean isOOB(final int I, final int MAX) {
+	private static boolean isOOB(final int I, final int MAX) {
 		if (I >= MAX) {
 			return true;
 		} else {
