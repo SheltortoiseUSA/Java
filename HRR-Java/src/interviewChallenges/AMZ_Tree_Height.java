@@ -34,7 +34,7 @@ public class AMZ_Tree_Height {
 		return HEIGHT_OF_TREE;
     }
 	
-	/* Custom recursive function to get the bottom-rightmost node.
+	/* Custom recursive function to get the tallest node branch.
 	 * 
 	 * NOTE:
 	 *  - Recursion is not good for memory... very bad, but works for this kind of operation.
