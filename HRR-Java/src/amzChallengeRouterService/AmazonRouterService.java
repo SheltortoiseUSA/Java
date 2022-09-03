@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class AMZ_Router_Service {
+public class AmazonRouterService {
 
 	public static void main(String[] args) {
 		// Dynamic Population of Buildings, no pun intended haha.
