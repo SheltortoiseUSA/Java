@@ -1,6 +1,6 @@
 package interviewChallenges;
 
-public class RectangleMatrix {
+public class HRR_RectangleMatrix {
 
 	public static void main(String[] args) {
 		// Task 1: Create Random 2 Dimensional Array
