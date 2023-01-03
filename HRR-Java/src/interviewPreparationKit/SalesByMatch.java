@@ -1,8 +1,8 @@
-package interviewChallenges;
+package interviewPreparationKit;
 
 import java.util.*;
 
-public class HRR_Pairs_of_Socks {
+public class SalesByMatch {
 
 	public static void main(String[] args) {
 		final List<Integer> inputSocks = new ArrayList<>();
