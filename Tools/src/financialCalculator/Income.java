@@ -1,8 +1,5 @@
 package financialCalculator;
 
-import java.text.NumberFormat;
-import java.util.Locale;
-
 public class Income {
 	// Static Data Members =========================================================================
 	// Income Tax
@@ -86,7 +83,7 @@ public class Income {
 		// Dynamic Income
 		this.hourly = hourly;
 		this.salary = hourly * hoursPerWeek * WEEKS_IN_YEAR;
-		this.perDiem = hourly * hoursPerShift / hoursPerShift;
+		this.perDiem = (hourly * hoursPerShift) + bonus;
 		
 		// Dynamic Duration
 		this.duration = duration;
@@ -127,7 +124,7 @@ public class Income {
 	// Member Methods ==============================================================================
 	public double getNetIncome() {
 		final double netSalary = ((hourly * hoursPerWeek * duration) * TOT_TAX_COEFF);
-		final double netBonus = (bonus * TOT_BONUS_TAX_COEFF);
+		final double netBonus = ((bonus * duration) * TOT_BONUS_TAX_COEFF);
 		return (netSalary + netBonus + currentSavings);
 	}
 	
@@ -139,5 +136,7 @@ public class Income {
 		
 		System.out.println("Final Output ==========================================");
 		System.out.println("Net Income: " + Utility.getDollarAmount(this.getNetIncome()));
+		
+		System.out.println();
 	}
 }
