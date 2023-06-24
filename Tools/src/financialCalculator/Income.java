@@ -5,14 +5,10 @@ public class Income {
 	// Income Tax
 	private static double CA_TAX_COEFF = 0.098;
 	private static double FED_TAX_COEFF = 0.24;
-	private static double TOT_TAX_COEFF = 
-			(1 - (CA_TAX_COEFF + FED_TAX_COEFF));
 	
 	// Bonus Tax
 	private static double CA_BONUS_TAX_COEFF = 0.1023;
 	private static double FED_BONUS_TAX_COEFF = 0.22;
-	private static double TOT_BONUS_TAX_COEFF = 
-			(1 - (CA_BONUS_TAX_COEFF + FED_BONUS_TAX_COEFF));
 	
 	// Default Business Time References
 	private static double DEFAULT_HOURS_PER_SHIFT = 8;
@@ -122,21 +118,56 @@ public class Income {
 	}
 	
 	// Member Methods ==============================================================================
-	public double getNetIncome() {
-		final double netSalary = ((hourly * hoursPerWeek * duration) * TOT_TAX_COEFF);
-		final double netBonus = ((bonus * duration) * TOT_BONUS_TAX_COEFF);
-		return (netSalary + netBonus + currentSavings);
+	public double getNetSavings(final String incomeSource) {
+		System.out.println(incomeSource);
+		
+		// Gross Income
+		final double TOT_GROSS_INCOME = (hourly * hoursPerWeek * duration);
+		System.out.println("Gross Income: " + Utility.getDollarAmount(TOT_GROSS_INCOME));
+		
+		final double TOT_GROSS_BONUS = (bonus * duration);
+		System.out.println("Gross Bonus: " + Utility.getDollarAmount(TOT_GROSS_BONUS));
+		
+		final double TOT_INCOME = TOT_GROSS_INCOME + TOT_GROSS_BONUS;
+		System.out.println("Total Gross Income: " + Utility.getDollarAmount(TOT_INCOME));
+		System.out.println();
+		
+		// Taxes
+		double TOT_INCOME_TAX = (TOT_GROSS_INCOME * (CA_TAX_COEFF + FED_TAX_COEFF));
+		System.out.println("Income Taxes Witheld: " + Utility.getDollarAmount(TOT_INCOME_TAX));
+		
+		final double TOT_BONUS_TAX = (TOT_GROSS_BONUS * (CA_BONUS_TAX_COEFF + FED_BONUS_TAX_COEFF));
+		System.out.println("Bonus Taxes Witheld: " + Utility.getDollarAmount(TOT_BONUS_TAX));
+		
+		final double TOT_TAXES = TOT_INCOME_TAX + TOT_BONUS_TAX;
+		System.out.println("Total Taxes Witheld: " + Utility.getDollarAmount(TOT_TAXES));
+		System.out.println();
+		
+		// Net Income
+		final double NET_INCOME = TOT_GROSS_INCOME - TOT_INCOME_TAX;
+		System.out.println("Net Income: " + Utility.getDollarAmount(NET_INCOME));
+		
+		final double NET_BONUS = TOT_GROSS_BONUS - TOT_BONUS_TAX;
+		System.out.println("Net Bonus: " + Utility.getDollarAmount(NET_BONUS));
+		
+		final double TOT_NET_INCOME = (NET_INCOME + NET_BONUS);
+		System.out.println("Total Net Income: " + Utility.getDollarAmount(TOT_NET_INCOME));
+		System.out.println("Current Savings: " + Utility.getDollarAmount(currentSavings));
+		
+		final double COMPLETE_TOT_SAVINGS = TOT_NET_INCOME + currentSavings;
+		System.out.println(incomeSource + "'s Total Net Savings: " + Utility.getDollarAmount(COMPLETE_TOT_SAVINGS));
+		System.out.println("------------------------------------------------------------------------");
+		System.out.println("------------------------------------------------------------------------");
+		System.out.println("------------------------------------------------------------------------");
+		System.out.println();
+		
+		return COMPLETE_TOT_SAVINGS;
 	}
 	
-	public void printNetIncome() {
-		System.out.println("Input =================================================");
+	public void printCalculatedIncomes() {
+		System.out.println("Calculated Incomes =====================================================");
 		System.out.println("Gross Salary: " + Utility.getDollarAmount(this.salary));
 		System.out.println("Gross Hourly: " + Utility.getDollarAmount(this.hourly));
 		System.out.println("Gross PerDiem: " + Utility.getDollarAmount(this.perDiem));
-		
-		System.out.println("Final Output ==========================================");
-		System.out.println("Net Income: " + Utility.getDollarAmount(this.getNetIncome()));
-		
-		System.out.println();
 	}
 }

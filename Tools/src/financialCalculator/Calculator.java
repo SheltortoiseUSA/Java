@@ -1,47 +1,80 @@
 package financialCalculator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Calculator {
-	private static final ArrayList<Cost> COSTS = new ArrayList<Cost>();
 	private static final double SALES_TAX_COEFF = 1.075;
+	private static final double DURATION_AS_WEEKS = 25.0;
+	private static final int DURATION_AS_MONTHS = (int) DURATION_AS_WEEKS / 4;
+	private static final String TABULATION = "\t\t\t\t";
+	
+	private static final ArrayList<Cost> COSTS = new ArrayList<Cost>();
+	private static final HashMap<String, Income> INCOMES = new HashMap<String, Income>();
 
 	public static void main(String[] args) {
-		final Income tyler = new Income(137000.00, 26.0, 1500.00, 0.0);
-		final Income makayla = new Income(44.00, 12.0, 36.0, 26.0, 18000.00, 120.00);
+		// Incomes
+		INCOMES.put("Tyler", new Income(137000.00, DURATION_AS_WEEKS, 0.0, 0.0));
+		INCOMES.put("Makayla (Normal)", new Income(48.00, 12.0, 48.0, DURATION_AS_WEEKS, 7000.0, 0));
+		INCOMES.put("Makayla (Extra)", new Income(43.00, 6.0, 6.0, DURATION_AS_WEEKS, 0, 0));
 		
-		tyler.printNetIncome();
-		makayla.printNetIncome();
-		
-		final double combinedIncome = (tyler.getNetIncome() + makayla.getNetIncome());
-		System.out.println("Combined Income: " + Utility.getDollarAmount(combinedIncome));
+		System.out.println("INCOME ANALYSIS =================================================");
+		final double combinedSavings = getTotalIncome();
+		System.out.println("Combined Savings: " + TABULATION + Utility.getDollarAmount(combinedSavings));
 		System.out.println();
 		
 		// Monthly Costs ====================================================================
-		COSTS.add(new Cost("Tyler: ", 6030, 6));
-		COSTS.add(new Cost("Makayla: ", 1500, 6));
+		COSTS.add(new Cost("Tyler", 5790, DURATION_AS_MONTHS));
+		COSTS.add(new Cost("Makayla", 650, DURATION_AS_MONTHS));
 		
 		// Itemized Costs ===================================================================
-		COSTS.add(new Cost("Furniture: ", 10000, 1));
-		COSTS.add(new Cost("Food: ", 15000, 1));
-		COSTS.add(new Cost("Venue: ", 4995, 1));
-		COSTS.add(new Cost("Floral: ", 3000, 1));
-		COSTS.add(new Cost("Honeymoon: ", 5000, 1));
+	    //COSTS.add(new Cost("Dove Canyon", 15000, 1));
 		
-		System.out.println("Costs ===========================================================");
+		// Costs ============================================================================
 		int totalCost = 0;
 		
+		System.out.println("COST ANALYSIS ===================================================");
 		for (final Cost cost: COSTS) {
-			final int tempCost = cost.getAmount();
-			final int tempFrequency = cost.getFrequency();
+			final String tempCostName = cost.getName();
+			final double tempCost = cost.getAmount();
+			int tempFrequency = cost.getFrequency();
 			
 			if (tempFrequency > 1) {
+				if (tempFrequency == 13) {
+					tempFrequency -= 1;
+				}
 				totalCost += (tempCost * tempFrequency);
+				
+				System.out.println(
+						"Recurring Cost (" + tempCostName + ") " + 
+						Utility.getDollarAmount(tempCost) + 
+						" (x" + tempFrequency + ") = " + 
+						Utility.getDollarAmount((tempCost * tempFrequency))
+						);
 			} else {
 				totalCost += (tempCost * SALES_TAX_COEFF);
+				System.out.println(
+						"Itemized Cost (" + tempCostName + ") " + 
+						Utility.getDollarAmount(tempCost)
+						);
 			}
 		}
-		System.out.println("Total Cost: " + Utility.getDollarAmount((double) totalCost));
-		System.out.println("Final Savings: " + Utility.getDollarAmount(combinedIncome - totalCost));
+		System.out.println("----------------------------------------------------------------");
+		System.out.println("Total Cost: " + TABULATION + Utility.getDollarAmount((double) totalCost));
+		System.out.println();
+		
+		System.out.println("FINAL CALCULATION ==============================================");
+		System.out.println("Final Savings: " + TABULATION + Utility.getDollarAmount(combinedSavings - totalCost));
+	}
+	
+	private static double getTotalIncome() {
+		double totalIncome = 0.0;
+		
+		for (Map.Entry<String, Income> entry : INCOMES.entrySet()) {
+			final double tempIncome = entry.getValue().getNetSavings(entry.getKey());
+			totalIncome += tempIncome;
+		}
+		return totalIncome;
 	}
 }
